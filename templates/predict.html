@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction - HeartCare AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <span>❤️</span>
+                <span>HeartCare AI</span>
+            </div>
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="/">Home</a></li>
+                <li><a href="/predict" class="active">Predict</a></li>
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/about">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1>Heart Disease Prediction</h1>
+        <p>Enter patient information for ML-powered risk assessment</p>
+    </section>
+
+    <div class="container">
+        <div class="form-section">
+            <h2 style="text-align: center; margin-bottom: 2rem; color: var(--dark);">Patient Information</h2>
+
+            <form id="prediction-form">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label for="age">Age (years)</label>
+                        <input type="number" id="age" class="form-control" min="1" max="120" value="55" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+                        <select id="gender" class="form-control" required>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label for="blood-pressure">Blood Pressure (mmHg)</label>
+                        <input type="number" id="blood-pressure" class="form-control" min="80" max="200" value="130"
+                            required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cholesterol">Cholesterol (mg/dL)</label>
+                        <input type="number" id="cholesterol" class="form-control" min="100" max="400" value="220"
+                            required>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label for="bmi">BMI</label>
+                        <input type="number" id="bmi" class="form-control" min="10" max="50" step="0.1" value="27.5"
+                            required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sleep-hours">Sleep Hours</label>
+                        <input type="number" id="sleep-hours" class="form-control" min="0" max="24" step="0.5" value="7"
+                            required>
+                    </div>
+                </div>
+
+                <h3 style="margin: 2rem 0 1.5rem; color: var(--dark); font-size: 1.1rem;">Lifestyle Factors</h3>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label for="exercise">Exercise Habits</label>
+                        <select id="exercise" class="form-control" required>
+                            <option value="Sedentary">Sedentary</option>
+                            <option value="Light">Light</option>
+                            <option value="Moderate" selected>Moderate</option>
+                            <option value="Active">Active</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="smoking">Smoking Status</label>
+                        <select id="smoking" class="form-control" required>
+                            <option value="No" selected>No</option>
+                            <option value="Yes">Yes</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label for="diabetes">Diabetes</label>
+                        <select id="diabetes" class="form-control" required>
+                            <option value="No" selected>No</option>
+                            <option value="Yes">Yes</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="family-history">Family Heart Disease</label>
+                        <select id="family-history" class="form-control" required>
+                            <option value="No" selected>No</option>
+                            <option value="Yes">Yes</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2rem; text-align: center; display: flex; gap: 1rem; justify-content: center;">
+                    <button type="button" class="btn btn-secondary" onclick="resetForm()">Reset</button>
+                    <button type="submit" class="btn btn-primary">Predict Risk</button>
+                </div>
+            </form>
+
+            <div id="loading" style="display: none; text-align: center; margin-top: 2rem;">
+                <div class="spinner"></div>
+                <p style="color: var(--text-light); margin-top: 1rem;">Analyzing patient data...</p>
+            </div>
+
+            <div id="results" class="result-container">
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <h2 style="margin-bottom: 0.5rem; color: var(--dark);" id="result-text">Assessment Result</h2>
+                    <p style="color: var(--text-light);" id="result-model"></p>
+                </div>
+
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="margin-bottom: 1rem; font-size: 1rem; color: var(--text);">Probability of Heart Disease
+                    </h3>
+                    <div class="probability-bar">
+                        <div class="probability-fill" id="probability-bar" style="width: 0%;"></div>
+                    </div>
+                    <p id="probability-text"
+                        style="text-align: center; margin-top: 0.5rem; font-weight: 600; color: var(--primary);"></p>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                    <div style="text-align: center; padding: 1.5rem; background: var(--bg); border-radius: 0.5rem;">
+                        <h4
+                            style="color: var(--text-light); font-size: 0.85rem; margin-bottom: 0.5rem; font-weight: 500;">
+                            Confidence</h4>
+                        <p id="confidence" style="font-size: 2rem; font-weight: 700; color: var(--primary);">95%</p>
+                    </div>
+                    <div style="text-align: center; padding: 1.5rem; background: var(--bg); border-radius: 0.5rem;">
+                        <h4
+                            style="color: var(--text-light); font-size: 0.85rem; margin-bottom: 0.5rem; font-weight: 500;">
+                            Risk Level</h4>
+                        <p id="risk-level" style="font-size: 2rem; font-weight: 700; color: var(--primary);">Low</p>
+                    </div>
+                </div>
+
+                <div class="alert alert-info">
+                    <strong>Note:</strong> This prediction is for informational purposes only. Please consult with a
+                    healthcare professional for proper diagnosis and treatment.
+                </div>
+
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="btn btn-primary" onclick="newPrediction()">Make Another Prediction</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 HeartCare AI. Powered by Muhamad Akmal.</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        let selectedModel = 'ml';
+
+        document.getElementById('prediction-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('results').classList.remove('show');
+
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        model_type: selectedModel
+                    })
+                });
+
+                const data = await response.json();
+
+                document.getElementById('loading').style.display = 'none';
+
+                if (data.error) {
+                    alert('Error: ' + data.error);
+                    return;
+                }
+
+                const diseaseProb = data.probability.disease;
+                const isDisease = data.prediction === 'Heart Disease';
+
+                document.getElementById('result-text').textContent = data.prediction;
+                document.getElementById('result-text').style.color = isDisease ? 'var(--danger)' : 'var(--success)';
+                document.getElementById('result-model').textContent = 'Model: ' + data.model;
+
+                document.getElementById('probability-bar').style.width = diseaseProb + '%';
+                document.getElementById('probability-text').textContent = diseaseProb.toFixed(1) + '%';
+
+                document.getElementById('confidence').textContent = data.confidence.toFixed(1) + '%';
+                document.getElementById('risk-level').textContent =
+                    diseaseProb < 30 ? 'Low' : diseaseProb < 70 ? 'Medium' : 'High';
+                document.getElementById('risk-level').style.color =
+                    diseaseProb < 30 ? 'var(--success)' : diseaseProb < 70 ? 'var(--warning)' : 'var(--danger)';
+
+                document.getElementById('results').classList.add('show');
+                document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+
+            } catch (error) {
+                document.getElementById('loading').style.display = 'none';
+                alert('Error making prediction. Please try again.');
+                console.error(error);
+            }
+        });
+
+        function resetForm() {
+            document.getElementById('prediction-form').reset();
+            document.getElementById('results').classList.remove('show');
+        }
+
+        function newPrediction() {
+            resetForm();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+
+</html>

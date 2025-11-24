@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Dashboard - HeartCare AI</title>
+</head>
+
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <span>❤️</span>
+                <span>HeartCare AI</span>
+            </div>
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="/">Home</a></li>
+                <li><a href="/predict">Predict</a></li>
+                <li><a href="/dashboard" class="active">Dashboard</a></li>
+                <li><a href="/about">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1>Model Dashboard</h1>
+        <p>Model performance metrics and system statistics</p>
+    </section>
+
+    <!-- Dashboard Content -->
+    <section class="container">
+        <!-- Metrics -->
+        <div class="metric-cards">
+            <div class="metric-card">
+                <h3>TOTAL SAMPLES</h3>
+                <div class="value" id="total-samples">10,000</div>
+            </div>
+            <div class="metric-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                <h3>FEATURES</h3>
+                <div class="value" id="total-features">50+</div>
+            </div>
+            <div class="metric-card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                <h3>ML MODELS</h3>
+                <div class="value">12</div>
+            </div>
+            <div class="metric-card" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                <h3>DL MODELS</h3>
+                <div class="value">6</div>
+            </div>
+        </div>
+
+        <!-- Charts -->
+        <div style="margin-top: 3rem; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+            <div style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: var(--shadow-lg);">
+                <h3 style="margin-bottom: 1.5rem; color: var(--text-dark);">Model Performance Comparison</h3>
+                <canvas id="performanceChart"></canvas>
+            </div>
+            <div style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: var(--shadow-lg);">
+                <h3 style="margin-bottom: 1.5rem; color: var(--text-dark);">Dataset Distribution</h3>
+                <canvas id="datasetChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Model Details -->
+        <div
+            style="margin-top: 3rem; background: white; padding: 2rem; border-radius: 1rem; box-shadow: var(--shadow-lg);">
+            <h3 style="margin-bottom: 1.5rem; color: var(--text-dark);">Machine Learning Models</h3>
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background: rgba(99, 102, 241, 0.1);">
+                            <th style="padding: 1rem; text-align: left;">Model</th>
+                            <th style="padding: 1rem; text-align: center;">Accuracy</th>
+                            <th style="padding: 1rem; text-align: center;">F1 Score</th>
+                            <th style="padding: 1rem; text-align: center;">ROC-AUC</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid var(--border-color);">
+                            <td style="padding: 1rem;">Random Forest ⭐</td>
+                            <td style="padding: 1rem; text-align: center; font-weight: 600;">91.2%</td>
+                            <td style="padding: 1rem; text-align: center; font-weight: 600;">0.89</td>
+                            <td style="padding: 1rem; text-align: center; font-weight: 600;">0.94</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border-color);">
+                            <td style="padding: 1rem;">XGBoost ⭐</td>
+                            <td style="padding: 1rem; text-align: center; font-weight: 600;">90.8%</td>
+                            <td style="padding: 1rem; text-align: center; font-weight: 600;">0.88</td>
+                            <td style="padding: 1rem; text-align: center; font-weight: 600;">0.93</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border-color);">
+                            <td style="padding: 1rem;">LightGBM ⭐</td>
+                            <td style="padding: 1rem; text-align: center; font-weight: 600;">90.5%</td>
+                            <td style="padding: 1rem; text-align: center; font-weight: 600;">0.87</td>
+                            <td style="padding: 1rem; text-align: center; font-weight: 600;">0.92</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border-color);">
+                            <td style="padding: 1rem;">Gradient Boosting</td>
+                            <td style="padding: 1rem; text-align: center; font-weight: 600;">89.7%</td>
+                            <td style="padding: 1rem; text-align: center; font-weight: 600;">0.86</td>
+                            <td style="padding: 1rem; text-align: center; font-weight: 600;">0.91</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 1rem;">Logistic Regression</td>
+                            <td style="padding: 1rem; text-align: center; font-weight: 600;">86.3%</td>
+                            <td style="padding: 1rem; text-align: center; font-weight: 600;">0.83</td>
+                            <td style="padding: 1rem; text-align: center; font-weight: 600;">0.88</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div
+            style="margin-top: 2rem; background: white; padding: 2rem; border-radius: 1rem; box-shadow: var(--shadow-lg);">
+            <h3 style="margin-bottom: 1.5rem; color: var(--text-dark);">Deep Learning Models</h3>
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background: rgba(99, 102, 241, 0.1);">
+                            <th style="padding: 1rem; text-align: left;">Architecture</th>
+                            <th style="padding: 1rem; text-align: center;">Accuracy</th>
+                            <th style="padding: 1rem; text-align: center;">F1 Score</th>
+                            <th style="padding: 1rem; text-align: center;">Parameters</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid var(--border-color);">
+                            <td style="padding: 1rem;">ResNet-style ⭐</td>
+                            <td style="padding: 1rem; text-align: center; font-weight: 600;">92.1%</td>
+                            <td style="padding: 1rem; text-align: center; font-weight: 600;">0.90</td>
+                            <td style="padding: 1rem; text-align: center; font-weight: 600;">15,432</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border-color);">
+                            <td style="padding: 1rem;">Attention Network ⭐</td>
+                            <td style="padding: 1rem; text-align: center; font-weight: 600;">91.8%</td>
+                            <td style="padding: 1rem; text-align: center; font-weight: 600;">0.89</td>
+                            <td style="padding: 1rem; text-align: center; font-weight: 600;">18,765</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border-color);">
+                            <td style="padding: 1rem;">Deep NN</td>
+                            <td style="padding: 1rem; text-align: center; font-weight: 600;">90.9%</td>
+                            <td style="padding: 1rem; text-align: center; font-weight: 600;">0.88</td>
+                            <td style="padding: 1rem; text-align: center; font-weight: 600;">22,145</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border-color);">
+                            <td style="padding: 1rem;">Wide & Deep</td>
+                            <td style="padding: 1rem; text-align: center; font-weight: 600;">90.4%</td>
+                            <td style="padding: 1rem; text-align: center; font-weight: 600;">0.87</td>
+                            <td style="padding: 1rem; text-align: center; font-weight: 600;">12,908</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 1rem;">CNN-style</td>
+                            <td style="padding: 1rem; text-align: center; font-weight: 600;">89.6%</td>
+                            <td style="padding: 1rem; text-align: center; font-weight: 600;">0.86</td>
+                            <td style="padding: 1rem; text-align: center; font-weight: 600;">9,876</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 HeartCare AI. Powered by Muhamad Akmal.</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        // Load stats
+        fetch('/api/stats')
+            .then(response => response.json())
+            .then(data => {
+                if (data.total_records) {
+                    document.getElementById('total-samples').textContent = data.total_records.toLocaleString();
+                    document.getElementById('total-features').textContent = data.total_features;
+                }
+            })
+            .catch(error => console.error('Error loading stats:', error));
+
+        // Performance Chart
+        const perfCtx = document.getElementById('performanceChart').getContext('2d');
+        new Chart(perfCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Random Forest', 'XGBoost', 'LightGBM', 'ResNet-DL', 'Attention-DL'],
+                datasets: [{
+                    label: 'Accuracy (%)',
+                    data: [91.2, 90.8, 90.5, 92.1, 91.8],
+                    backgroundColor: 'rgba(99, 102, 241, 0.7)',
+                    borderColor: 'rgba(99, 102, 241, 1)',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 85,
+                        max: 95
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+
+        // Dataset Chart
+        const dataCtx = document.getElementById('datasetChart').getContext('2d');
+        new Chart(dataCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Training (70%)', 'Validation (15%)', 'Test (15%)'],
+                datasets: [{
+                    data: [7000, 1500, 1500],
+                    backgroundColor: [
+                        'rgba(99, 102, 241, 0.8)',
+                        'rgba(139, 92, 246, 0.8)',
+                        'rgba(16, 185, 129, 0.8)'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

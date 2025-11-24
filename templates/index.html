@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HeartCare AI - Heart Disease Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <span>❤️</span>
+                <span>HeartCare AI</span>
+            </div>
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="/" class="active">Home</a></li>
+                <li><a href="/predict">Predict</a></li>
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/about">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1>Heart Disease Prediction</h1>
+        <p>Accurate ML-powered risk assessment for cardiovascular health</p>
+        <div class="hero-buttons">
+            <a href="/predict" class="btn btn-primary">Start Prediction</a>
+            <a href="/dashboard" class="btn btn-secondary">View Dashboard</a>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="card-grid">
+            <div class="card">
+                <span class="card-icon">🤖</span>
+                <h3>Machine Learning</h3>
+                <p>8 powerful algorithms including Random Forest, XGBoost, and LightGBM</p>
+                <a href="/predict" class="btn btn-primary">Get Started</a>
+            </div>
+
+            <div class="card">
+                <span class="card-icon">📊</span>
+                <h3>Analytics</h3>
+                <p>Real-time performance metrics and comprehensive model evaluation</p>
+                <a href="/dashboard" class="btn btn-primary">View Stats</a>
+            </div>
+
+            <div class="card">
+                <span class="card-icon">💡</span>
+                <h3>Insights</h3>
+                <p>Data-driven predictions with confidence scores and risk assessment</p>
+                <a href="/about" class="btn btn-primary">Learn More</a>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">8</div>
+                <div class="stat-label">ML Models</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">10K+</div>
+                <div class="stat-label">Samples</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">35</div>
+                <div class="stat-label">Features</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">90%+</div>
+                <div class="stat-label">Accuracy</div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 HeartCare AI. Powered by Muhamad Akmal.</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+</html>

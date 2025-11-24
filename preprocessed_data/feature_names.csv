@@ -1,0 +1,36 @@
+feature
+Age
+Blood Pressure
+Cholesterol Level
+BMI
+Sleep Hours
+Triglyceride Level
+Fasting Blood Sugar
+CRP Level
+Homocysteine Level
+smoker
+has_diabetes
+high_bp
+family_history
+risk_score
+Gender_Male
+Exercise Habits_Low
+Exercise Habits_Medium
+Smoking_Yes
+Family Heart Disease_Yes
+Diabetes_Yes
+High Blood Pressure_Yes
+Low HDL Cholesterol_Yes
+High LDL Cholesterol_Yes
+Alcohol Consumption_Low
+Alcohol Consumption_Medium
+Stress Level_Low
+Stress Level_Medium
+Sugar Consumption_Low
+Sugar Consumption_Medium
+age_group_middle
+age_group_senior
+age_group_elderly
+bmi_cat_normal
+bmi_cat_overweight
+bmi_cat_obese
