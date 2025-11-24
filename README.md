@@ -44,13 +44,12 @@ jupyter notebook 1_exploratory_data_analysis.ipynb
 ## Models
 
 - Machine Learning: Random Forest, XGBoost, LightGBM, etc.
-- Deep Learning: Neural network with dropout
 - Expected accuracy: 90-92%
 
 ## Features
 
 - Interactive web interface
-- ML vs DL model selection
+- ML model selection
 - Real-time predictions
 - Dashboard with metrics
 - Responsive design
@@ -59,7 +58,6 @@ jupyter notebook 1_exploratory_data_analysis.ipynb
 
 - Backend: Flask
 - ML: scikit-learn, XGBoost, LightGBM
-- DL: TensorFlow/Keras
 - Frontend: HTML, CSS, JavaScript, Chart.js
 
 ## License
